@@ -13,7 +13,7 @@ class TokenReferredFieldMapper
     public function mapTokensToReferredFields(array $tokens) : ArrayAccess
     {
         return collect($tokens)->mapWithKeys(function($token) {
-            $referredField = ReferredField::findByLabel($token);
+            $referredField = config('laravel-referred-field.referred_field_class', Armcanada\LaravelReferredField\Models\ReferredField::class)::findByLabel($token);
 
             return [
                 $token => $referredField

@@ -3,7 +3,6 @@
 namespace Armcanada\LaravelReferredField\Resolvers;
 
 use Armcanada\LaravelReferredField\Exceptions\MissingDependencyException;
-use Armcanada\LaravelReferredField\Models\ReferredField;
 use Illuminate\Support\Facades\DB;
 
 class DatabaseResolver
@@ -11,7 +10,7 @@ class DatabaseResolver
     private $referredField;
     private $dependencies;
 
-    public function __construct(ReferredField $referredField, array $dependencies)
+    public function __construct($referredField, array $dependencies)
     {
         $this->referredField = $referredField;
         $this->dependencies = $dependencies;
