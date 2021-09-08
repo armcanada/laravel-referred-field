@@ -19,8 +19,8 @@ class DatabaseResolver
     public function resolve() : string
     {
         if(!isset($this->dependencies['id'])) {
-            if ($this->referredField->table == null)dd($this);
-            throw new MissingDependencyException('id');
+            if ($this->referredField->table == null)
+                throw new MissingDependencyException('id');
         }
 
         $instance = $this->getTargetedInstance();
@@ -32,6 +32,6 @@ class DatabaseResolver
 
     public function getTargetedInstance()
     {
-        return DB::table($this->referredField->table)->select($this->referredField->column)->where('id', $this->dependencies['id'])->first();
+        return DB::connection(config('laravel-referred-field.connection'))->table($this->referredField->table)->select($this->referredField->column)->where('id', $this->dependencies['id'])->first();
     }
 }

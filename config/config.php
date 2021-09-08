@@ -5,5 +5,6 @@
  */
 return [
     'interpolation_pattern' => "{{ }}",
-    'referred_field_class' => Armcanada\LaravelReferredField\Models\ReferredField::class
+    'referred_field_class' => Armcanada\LaravelReferredField\Models\ReferredField::class,
+    'connection' => env('DB_CONNECTION', 'mysql'),
 ];
