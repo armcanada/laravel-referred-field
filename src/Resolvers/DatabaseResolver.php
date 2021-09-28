@@ -25,7 +25,7 @@ class DatabaseResolver
 
         $instance = $this->getTargetedInstance();
         if ($instance) {
-            return $instance->{$this->referredField->column};
+            return $instance->{$this->referredField->column} ?? '';
         }
         return '';
     }
