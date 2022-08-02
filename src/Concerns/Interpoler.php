@@ -40,7 +40,11 @@ class Interpoler
                 throw new MissingDependencyException($token);
             }
             $key = str_replace(' ', $token, config('laravel-referred-field.interpolation_pattern'));
-            return [$key => $referredField?->getReferredValue($dependencies)];
+            if ($referredField?->getOriginal('table') !== null) {
+                return [$key => $referredField?->getReferredValue($dependencies[$referredField?->getOriginal('table')]) ?? null];
+            } else {
+                return [$key => $referredField?->getReferredValue($dependencies)];
+            }
         });
         
         $replacedMap->map(function($newValue, $token) use(&$text) {
