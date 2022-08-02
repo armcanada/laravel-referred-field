@@ -32,6 +32,23 @@ class Interpoler
         return $text;
     }
 
+    public function interpolateUsingDependencies(string $text, array $dependencies = []) : string
+    {
+        $map = $this->getReferredFieldsFromText($text);
+        $replacedMap = $map->mapWithKeys(function($referredField, $token) use($dependencies) {
+            if (!isset($dependencies[$referredField?->getOriginal('table')]) && $referredField?->getOriginal('table') !== null) {
+                throw new MissingDependencyException($token);
+            }
+            $key = str_replace(' ', $token, config('laravel-referred-field.interpolation_pattern'));
+            return [$key => $referredField?->getReferredValue($dependencies)];
+        });
+        
+        $replacedMap->map(function($newValue, $token) use(&$text) {
+            $text = str_replace($token, $newValue, $text);
+        });
+        return $text;
+    }
+
     public function getReferredFieldsFromText($text)
     {
         $tokens = $this->tokenizer->extract($text);
